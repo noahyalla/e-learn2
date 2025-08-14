@@ -413,6 +413,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   collectionName: 'categories';
   info: {
+    description: 'Course Categories';
     displayName: 'Category';
     pluralName: 'categories';
     singularName: 'category';
@@ -432,8 +433,15 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
       'api::category.category'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String;
+    parentCategory: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::category.category'
+    >;
     publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'title'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -443,6 +451,7 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
 export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
   collectionName: 'courses';
   info: {
+    description: 'E-learning Courses';
     displayName: 'Course';
     pluralName: 'courses';
     singularName: 'course';
@@ -452,25 +461,34 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
   };
   attributes: {
     category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
+    courseImage: Schema.Attribute.Media<'images'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text;
-    instructor: Schema.Attribute.Relation<
-      'manyToOne',
+    description: Schema.Attribute.RichText;
+    duration: Schema.Attribute.Integer;
+    instructors: Schema.Attribute.Relation<
+      'manyToMany',
       'api::instructor.instructor'
     >;
-    lesson: Schema.Attribute.Relation<'oneToMany', 'api::lesson.lesson'>;
+    language: Schema.Attribute.String;
     lessons: Schema.Attribute.Relation<'oneToMany', 'api::lesson.lesson'>;
+    level: Schema.Attribute.Enumeration<
+      ['Beginner', 'Intermediate', 'Advanced']
+    > &
+      Schema.Attribute.DefaultTo<'Beginner'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::course.course'
     > &
       Schema.Attribute.Private;
-    published: Schema.Attribute.DateTime;
+    price: Schema.Attribute.Decimal;
     publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String;
+    slug: Schema.Attribute.UID<'title'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -480,6 +498,7 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
 export interface ApiInstructorInstructor extends Struct.CollectionTypeSchema {
   collectionName: 'instructors';
   info: {
+    description: 'Course Instructors';
     displayName: 'Instructor';
     pluralName: 'instructors';
     singularName: 'instructor';
@@ -488,8 +507,8 @@ export interface ApiInstructorInstructor extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    bio: Schema.Attribute.Text;
-    courses: Schema.Attribute.Relation<'oneToMany', 'api::course.course'>;
+    bio: Schema.Attribute.RichText;
+    courses: Schema.Attribute.Relation<'manyToMany', 'api::course.course'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -499,9 +518,10 @@ export interface ApiInstructorInstructor extends Struct.CollectionTypeSchema {
       'api::instructor.instructor'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String;
-    photo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    profilePicture: Schema.Attribute.Media<'images'>;
     publishedAt: Schema.Attribute.DateTime;
+    socialLinks: Schema.Attribute.JSON;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -511,6 +531,7 @@ export interface ApiInstructorInstructor extends Struct.CollectionTypeSchema {
 export interface ApiLessonLesson extends Struct.CollectionTypeSchema {
   collectionName: 'lessons';
   info: {
+    description: 'Course Lessons';
     displayName: 'Lesson';
     pluralName: 'lessons';
     singularName: 'lesson';
@@ -519,16 +540,12 @@ export interface ApiLessonLesson extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    audio: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    content: Schema.Attribute.Blocks;
+    content: Schema.Attribute.RichText;
     course: Schema.Attribute.Relation<'manyToOne', 'api::course.course'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    downloadableContent: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
+    duration: Schema.Attribute.Integer;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -537,11 +554,45 @@ export interface ApiLessonLesson extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     order: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String;
+    quiz: Schema.Attribute.Relation<'oneToOne', 'api::quiz.quiz'>;
+    resources: Schema.Attribute.Media<'files' | 'images' | 'videos', true>;
+    slug: Schema.Attribute.UID<'title'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    video: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    videoUrl: Schema.Attribute.String;
+  };
+}
+
+export interface ApiQuizQuiz extends Struct.CollectionTypeSchema {
+  collectionName: 'quizzes';
+  info: {
+    description: 'Lesson quizzes';
+    displayName: 'Quiz';
+    pluralName: 'quizzes';
+    singularName: 'quiz';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    lesson: Schema.Attribute.Relation<'oneToOne', 'api::lesson.lesson'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::quiz.quiz'> &
+      Schema.Attribute.Private;
+    passingScore: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<70>;
+    publishedAt: Schema.Attribute.DateTime;
+    questions: Schema.Attribute.JSON;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1059,6 +1110,7 @@ declare module '@strapi/strapi' {
       'api::course.course': ApiCourseCourse;
       'api::instructor.instructor': ApiInstructorInstructor;
       'api::lesson.lesson': ApiLessonLesson;
+      'api::quiz.quiz': ApiQuizQuiz;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

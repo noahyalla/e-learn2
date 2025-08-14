@@ -4,24 +4,35 @@
   "info": {
     "singularName": "category",
     "pluralName": "categories",
-    "displayName": "Category"
+    "displayName": "Category",
+    "description": "Course Categories"
   },
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string"
+    "title": {
+      "type": "string",
+      "required": true
     },
     "description": {
       "type": "text"
     },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true,
+      "unique": true
+    },
+    "parentCategory": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
+    },
     "courses": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::course.course",
-      "mappedBy": "category"
+      "target": "api::course.course"
     }
   }
 }

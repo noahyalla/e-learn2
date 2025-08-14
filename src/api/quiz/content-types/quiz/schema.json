@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quizzes",
+  "info": {
+    "singularName": "quiz",
+    "pluralName": "quizzes",
+    "displayName": "Quiz",
+    "description": "Lesson quizzes"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "lesson": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::lesson.lesson"
+    },
+    "questions": {
+      "type": "json",
+      "description": "List of questions and options"
+    },
+    "passingScore": {
+      "type": "integer",
+      "default": 70
+    }
+  }
+}

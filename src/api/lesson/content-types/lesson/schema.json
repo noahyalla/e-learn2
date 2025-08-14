@@ -4,57 +4,55 @@
   "info": {
     "singularName": "lesson",
     "pluralName": "lessons",
-    "displayName": "Lesson"
+    "displayName": "Lesson",
+    "description": "Course Lessons"
   },
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true,
+      "unique": true
     },
     "content": {
-      "type": "blocks"
+      "type": "richtext"
     },
-    "video": {
-      "type": "media",
-      "multiple": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+    "videoUrl": {
+      "type": "string"
     },
-    "audio": {
-      "type": "media",
-      "multiple": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
-    "downloadableContent": {
+    "resources": {
       "type": "media",
       "multiple": true,
       "allowedTypes": [
-        "images",
         "files",
-        "videos",
-        "audios"
+        "images",
+        "videos"
       ]
-    },
-    "order": {
-      "type": "integer"
     },
     "course": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::course.course",
-      "inversedBy": "lesson"
+      "target": "api::course.course"
+    },
+    "duration": {
+      "type": "integer",
+      "description": "Lesson duration in minutes"
+    },
+    "order": {
+      "type": "integer",
+      "description": "Lesson order in course"
+    },
+    "quiz": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::quiz.quiz"
     }
   }
 }

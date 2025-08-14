@@ -4,44 +4,65 @@
   "info": {
     "singularName": "course",
     "pluralName": "courses",
-    "displayName": "Course"
+    "displayName": "Course",
+    "description": "E-learning Courses"
   },
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "description": {
-      "type": "text"
+      "type": "richtext"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true,
+      "unique": true
     },
     "category": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::category.category",
-      "inversedBy": "courses"
+      "target": "api::category.category"
     },
-    "instructor": {
+    "instructors": {
       "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::instructor.instructor",
-      "inversedBy": "courses"
+      "relation": "manyToMany",
+      "target": "api::instructor.instructor"
+    },
+    "courseImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "level": {
+      "type": "enumeration",
+      "enum": [
+        "Beginner",
+        "Intermediate",
+        "Advanced"
+      ],
+      "default": "Beginner"
+    },
+    "duration": {
+      "type": "integer"
+    },
+    "language": {
+      "type": "string"
+    },
+    "price": {
+      "type": "decimal"
     },
     "lessons": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::lesson.lesson"
-    },
-    "published": {
-      "type": "datetime"
-    },
-    "lesson": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::lesson.lesson",
-      "mappedBy": "course"
     }
   }
 }
