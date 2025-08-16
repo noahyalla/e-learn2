@@ -29,6 +29,12 @@
     },
     "bio": {
       "type": "richtext"
+    },
+    "courses": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::course.course",
+      "mappedBy": "instructors"
     }
   }
 }

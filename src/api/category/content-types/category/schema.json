@@ -27,6 +27,12 @@
     },
     "imageUrl": {
       "type": "text"
+    },
+    "courses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::course.course",
+      "mappedBy": "category"
     }
   }
 }

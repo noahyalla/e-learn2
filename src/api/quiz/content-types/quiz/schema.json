@@ -14,11 +14,17 @@
     "title": {
       "type": "string"
     },
-    "question": {
+    "questions": {
       "type": "json"
     },
     "passingScore": {
       "type": "integer"
+    },
+    "lesson": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::lesson.lesson",
+      "inversedBy": "quizzes"
     }
   }
 }

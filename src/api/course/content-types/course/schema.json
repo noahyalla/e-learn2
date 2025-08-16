@@ -46,6 +46,24 @@
     },
     "price": {
       "type": "decimal"
+    },
+    "lessons": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::lesson.lesson",
+      "mappedBy": "course"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "courses"
+    },
+    "instructors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::instructor.instructor",
+      "inversedBy": "courses"
     }
   }
 }

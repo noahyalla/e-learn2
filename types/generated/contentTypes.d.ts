@@ -421,6 +421,7 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    courses: Schema.Attribute.Relation<'oneToMany', 'api::course.course'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -456,6 +457,7 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     courseImage: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios'
     >;
@@ -464,7 +466,12 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
     duration: Schema.Attribute.Integer;
+    instructors: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::instructor.instructor'
+    >;
     language: Schema.Attribute.String;
+    lessons: Schema.Attribute.Relation<'oneToMany', 'api::lesson.lesson'>;
     level: Schema.Attribute.Enumeration<
       ['Beginner', 'Intermediate', 'Advanced']
     >;
@@ -496,6 +503,7 @@ export interface ApiInstructorInstructor extends Struct.CollectionTypeSchema {
   };
   attributes: {
     bio: Schema.Attribute.RichText;
+    courses: Schema.Attribute.Relation<'manyToMany', 'api::course.course'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -529,6 +537,7 @@ export interface ApiLessonLesson extends Struct.CollectionTypeSchema {
   };
   attributes: {
     content: Schema.Attribute.RichText;
+    course: Schema.Attribute.Relation<'manyToOne', 'api::course.course'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -541,6 +550,7 @@ export interface ApiLessonLesson extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     order: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
+    quizzes: Schema.Attribute.Relation<'oneToMany', 'api::quiz.quiz'>;
     reources: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios',
       true
@@ -568,12 +578,13 @@ export interface ApiQuizQuiz extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    lesson: Schema.Attribute.Relation<'manyToOne', 'api::lesson.lesson'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::quiz.quiz'> &
       Schema.Attribute.Private;
     passingScore: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
-    question: Schema.Attribute.JSON;
+    questions: Schema.Attribute.JSON;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
