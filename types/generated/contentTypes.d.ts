@@ -469,7 +469,6 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
       'api::instructor.instructor'
     >;
     language: Schema.Attribute.String;
-    lessons: Schema.Attribute.Relation<'oneToMany', 'api::lesson.lesson'>;
     level: Schema.Attribute.Enumeration<
       ['Beginner', 'Intermediate', 'Advanced']
     >;
@@ -524,7 +523,6 @@ export interface ApiInstructorInstructor extends Struct.CollectionTypeSchema {
 export interface ApiLessonLesson extends Struct.CollectionTypeSchema {
   collectionName: 'lessons';
   info: {
-    description: 'Course Lessons';
     displayName: 'Lesson';
     pluralName: 'lessons';
     singularName: 'lesson';
@@ -546,21 +544,22 @@ export interface ApiLessonLesson extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     order: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
-    quiz: Schema.Attribute.Relation<'oneToOne', 'api::quiz.quiz'>;
-    resources: Schema.Attribute.Media<'files' | 'images' | 'videos', true>;
-    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    reources: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    slug: Schema.Attribute.UID;
+    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    videoUrl: Schema.Attribute.String;
+    videoUrl: Schema.Attribute.Text;
   };
 }
 
 export interface ApiQuizQuiz extends Struct.CollectionTypeSchema {
   collectionName: 'quizzes';
   info: {
-    description: 'Lesson quizzes';
     displayName: 'Quiz';
     pluralName: 'quizzes';
     singularName: 'quiz';
@@ -572,14 +571,13 @@ export interface ApiQuizQuiz extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    lesson: Schema.Attribute.Relation<'oneToOne', 'api::lesson.lesson'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::quiz.quiz'> &
       Schema.Attribute.Private;
-    passingScore: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<70>;
+    passingScore: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
-    questions: Schema.Attribute.JSON;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    question: Schema.Attribute.JSON;
+    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

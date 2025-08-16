@@ -51,11 +51,6 @@
     },
     "price": {
       "type": "decimal"
-    },
-    "lessons": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::lesson.lesson"
     }
   }
 }

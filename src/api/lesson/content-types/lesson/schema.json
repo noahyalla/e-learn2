@@ -4,8 +4,7 @@
   "info": {
     "singularName": "lesson",
     "pluralName": "lessons",
-    "displayName": "Lesson",
-    "description": "Course Lessons"
+    "displayName": "Lesson"
   },
   "options": {
     "draftAndPublish": true
@@ -13,27 +12,25 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "slug": {
-      "type": "uid",
-      "targetField": "title",
-      "required": true
+      "type": "uid"
     },
     "content": {
       "type": "richtext"
     },
     "videoUrl": {
-      "type": "string"
+      "type": "text"
     },
-    "resources": {
+    "reources": {
       "type": "media",
       "multiple": true,
       "allowedTypes": [
-        "files",
         "images",
-        "videos"
+        "files",
+        "videos",
+        "audios"
       ]
     },
     "duration": {
@@ -41,11 +38,6 @@
     },
     "order": {
       "type": "integer"
-    },
-    "quiz": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::quiz.quiz"
     }
   }
 }
