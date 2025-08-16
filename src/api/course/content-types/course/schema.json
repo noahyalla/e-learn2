@@ -4,8 +4,7 @@
   "info": {
     "singularName": "course",
     "pluralName": "courses",
-    "displayName": "Course",
-    "description": "E-learning Courses"
+    "displayName": "Course"
   },
   "options": {
     "draftAndPublish": true
@@ -13,32 +12,31 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "description": {
-      "type": "richtext"
+      "type": "text"
     },
     "slug": {
-      "type": "uid",
-      "targetField": "title",
-      "required": true
+      "type": "uid"
     },
     "instructors": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "oneToMany",
       "target": "api::instructor.instructor"
     },
     "courseImage": {
       "type": "media",
       "multiple": false,
       "allowedTypes": [
-        "images"
+        "images",
+        "files",
+        "videos",
+        "audios"
       ]
     },
     "level": {
       "type": "enumeration",
-      "default": "Beginner",
       "enum": [
         "Beginner",
         "Intermediate",

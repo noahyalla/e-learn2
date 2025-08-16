@@ -10,6 +10,7 @@
   "options": {
     "draftAndPublish": true
   },
+  "pluginOptions": {},
   "attributes": {
     "title": {
       "type": "string",
@@ -18,8 +19,7 @@
     "slug": {
       "type": "uid",
       "targetField": "title",
-      "required": true,
-      "unique": true
+      "required": true
     },
     "content": {
       "type": "richtext"
@@ -36,18 +36,11 @@
         "videos"
       ]
     },
-    "course": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::course.course"
-    },
     "duration": {
-      "type": "integer",
-      "description": "Lesson duration in minutes"
+      "type": "integer"
     },
     "order": {
-      "type": "integer",
-      "description": "Lesson order in course"
+      "type": "integer"
     },
     "quiz": {
       "type": "relation",
