@@ -14,9 +14,6 @@
     "name": {
       "type": "string"
     },
-    "bio": {
-      "type": "blocks"
-    },
     "profilePicture": {
       "type": "media",
       "multiple": false,
@@ -29,6 +26,9 @@
     },
     "socialLinks": {
       "type": "json"
+    },
+    "bio": {
+      "type": "richtext"
     }
   }
 }
