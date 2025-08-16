@@ -20,11 +20,6 @@
     "slug": {
       "type": "uid"
     },
-    "instructors": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::instructor.instructor"
-    },
     "courseImage": {
       "type": "media",
       "multiple": false,

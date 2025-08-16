@@ -464,10 +464,6 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
     duration: Schema.Attribute.Integer;
-    instructors: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::instructor.instructor'
-    >;
     language: Schema.Attribute.String;
     level: Schema.Attribute.Enumeration<
       ['Beginner', 'Intermediate', 'Advanced']
@@ -491,7 +487,6 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
 export interface ApiInstructorInstructor extends Struct.CollectionTypeSchema {
   collectionName: 'instructors';
   info: {
-    description: 'Course Instructors';
     displayName: 'Instructor';
     pluralName: 'instructors';
     singularName: 'instructor';
@@ -500,7 +495,7 @@ export interface ApiInstructorInstructor extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    bio: Schema.Attribute.RichText;
+    bio: Schema.Attribute.Blocks;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -510,8 +505,10 @@ export interface ApiInstructorInstructor extends Struct.CollectionTypeSchema {
       'api::instructor.instructor'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
-    profilePicture: Schema.Attribute.Media<'images'>;
+    name: Schema.Attribute.String;
+    profilePicture: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
     publishedAt: Schema.Attribute.DateTime;
     socialLinks: Schema.Attribute.JSON;
     updatedAt: Schema.Attribute.DateTime;

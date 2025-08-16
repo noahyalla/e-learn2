@@ -4,8 +4,7 @@
   "info": {
     "singularName": "instructor",
     "pluralName": "instructors",
-    "displayName": "Instructor",
-    "description": "Course Instructors"
+    "displayName": "Instructor"
   },
   "options": {
     "draftAndPublish": true
@@ -13,18 +12,19 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "bio": {
-      "type": "richtext"
+      "type": "blocks"
     },
     "profilePicture": {
       "type": "media",
       "multiple": false,
-      "required": false,
       "allowedTypes": [
-        "images"
+        "images",
+        "files",
+        "videos",
+        "audios"
       ]
     },
     "socialLinks": {
