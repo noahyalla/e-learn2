@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "instructors",
+  "info": {
+    "singularName": "instructor",
+    "pluralName": "instructors",
+    "displayName": "Instructor"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "profilePicture": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "socialLinks": {
+      "type": "json"
+    },
+    "bio": {
+      "type": "richtext"
+    },
+    "courses": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::course.course",
+      "mappedBy": "instructors"
+    }
+  }
+}
